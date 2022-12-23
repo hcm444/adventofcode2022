@@ -72,7 +72,24 @@ class Solution:
 
 
     def part2(self, filename="day2.txt"):
-        pass
+        strategies = self.parse(filename)
+        total_score = 0
+        for strategy in strategies:
+            opponent = ord(strategy[0]) - ord('A') + 1
+            play = strategy[1]
+
+            if play == 'X':
+                # lose
+                shape = (opponent - 1) if opponent > 1 else 3
+                total_score += shape + 0
+            if play == 'Y':
+                # draw
+                total_score += opponent + 3
+            if play == 'Z':
+                # win
+                shape = (opponent + 1) if opponent < 3 else 1
+                total_score += shape + 6
+        return total_score
 
 
 day2 = Solution()
