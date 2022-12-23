@@ -43,6 +43,36 @@ class Solution:
             if opponent - shape is 1 or -2 then
                 score = shape + 0
         ```
+
+
+
+        ## Part 2
+
+        ### Explanation
+
+        The same logic applies but this time in reverse. We know the value of
+        the opponent and we know the strategy we want to play, so to find the
+        shape for each condition we:
+        * lose: shape = opponent - 1 if opponent is > 1 otherwise 3
+        * tie: shape = opponent
+        * win: shape = opponent + 1 if opponent is < 3 otherwise 1
+
+        ### Pseudocode
+
+        ```
+        foreach round
+            opponent = ascii value of opponent move offset by 'A'
+
+            if move is 'X' then
+                shape = opponent - 1 if opponent is > 1 otherwise 3
+                score = shape + 0
+            if move is 'Y' then
+                shape = opponent
+                score = shape + 3
+            if move is 'Z' then
+                shape = opponent + 1 if opponent is < 3 otherwise 1
+                score = shape + 6
+        ```
     """
     def parse(self, filename):
         with open(filename, 'r') as f:
