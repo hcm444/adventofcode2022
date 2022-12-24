@@ -1,5 +1,6 @@
 # Jacobus Burger (2022)
 from functools import reduce
+from string import ascii_letters
 
 
 class Solution:
@@ -41,15 +42,6 @@ class Solution:
             ]
 
 
-    # calculate priority level (a to z is 1 to 26, A to Z is 27 to 52)
-    # TODO - this can be improved by using ascii_letters from string module
-    def priority(self, char):
-        priority_level = ord(char) - ord('A') + 27
-        if priority_level > 52:
-            return priority_level - 52 - 6
-        return priority_level
-
-
     def part1(self, filename="day3.txt"):
         sacks = self.parse(filename)
         total = 0
@@ -60,7 +52,7 @@ class Solution:
             item = A.intersection(B).pop()  # common item
 
             # add common item type priority to total
-            total += self.priority(item)
+            total += ascii_letters.index(item) + 1
         return total
 
 
@@ -71,7 +63,7 @@ class Solution:
         for i in range(0, len(sacks), 3):
             group = sacks[i:i + 3]
             badge = reduce(set.intersection, map(set, group)).pop()
-            total += self.priority(badge)
+            total += ascii_letters.index(badge) + 1
         return total
 
 
