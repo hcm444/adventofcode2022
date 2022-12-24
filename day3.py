@@ -42,6 +42,7 @@ class Solution:
 
 
     # calculate priority level (a to z is 1 to 26, A to Z is 27 to 52)
+    # TODO - this can be improved by using ascii_letters from string module
     def priority(self, char):
         priority_level = ord(char) - ord('A') + 27
         if priority_level > 52:
@@ -54,11 +55,11 @@ class Solution:
         total = 0
         for sack in sacks:
             # find common character (item type) in both compartments
-            A = set(sack[:len(sack) // 2])
-            B = set(sack[len(sack) // 2:])
-            item = A.intersection(B).pop()
+            A = set(sack[:len(sack) // 2])  # compartment 1
+            B = set(sack[len(sack) // 2:])  # compartment 2
+            item = A.intersection(B).pop()  # common item
 
-            # calculate priority of the common item type
+            # add common item type priority to total
             total += self.priority(item)
         return total
 
@@ -66,6 +67,7 @@ class Solution:
     def part2(self, filename="day3.txt"):
         sacks = self.parse(filename)
         total = 0
+        # iterate 3 sacks at a time (one group at a time)
         for i in range(0, len(sacks), 3):
             group = sacks[i:i + 3]
             badge = reduce(set.intersection, map(set, group)).pop()

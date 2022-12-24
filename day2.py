@@ -91,7 +91,7 @@ class Solution:
             opponent = ord(strategy[0]) - ord('A') + 1
             shape = ord(strategy[1]) - ord('X') + 1
 
-            # rock wins paper wins scissors wins rock
+            # score game
             if opponent - shape == -1 or opponent - shape == 2:
                 total_score += shape + 6  # win
             if opponent == shape:
@@ -105,6 +105,7 @@ class Solution:
         strategies = self.parse(filename)
         total_score = 0
         for strategy in strategies:
+            # get opponent move and play of round
             opponent = ord(strategy[0]) - ord('A') + 1
             play = strategy[1]
 
