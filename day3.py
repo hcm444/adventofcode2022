@@ -1,4 +1,5 @@
 # Jacobus Burger (2022)
+from functools import reduce
 
 
 class Solution:
@@ -10,7 +11,7 @@ class Solution:
 
         ### Explanation
 
-        Given a rucksack (string), I need to split it into two
+        Given a sack (string), I need to split it into two
         compartments (strings) and determine what item (character)
         they have in common, then get the priority value of that
         item, and add that together to get the total priority of all.
@@ -19,15 +20,24 @@ class Solution:
         priority levels (a-z == 1-26, A-Z == 27-52). Then, iterating
         through every string, I use python's set intersection to find
         the common item, use the priority function to calculate the
-        value, and then add it to a running total.
+        value, and then add it to a running total then return that total.
+
+        ## Part 2
+
+        ### Explanation
+
+        To solve this, I take groups of 3 sacks at a time and
+        find the intersection between all three of them with
+        a reduce. Then add the priority value of the answer to the
+        running total and return that running total.
     """
 
 
     def parse(self, filename="day3.txt"):
         with open(filename, 'r') as file:
             return [
-                rucksack.strip('\n')
-                for rucksack in file.readlines()
+                sack.strip('\n')
+                for sack in file.readlines()
             ]
 
 
@@ -40,12 +50,12 @@ class Solution:
 
 
     def part1(self, filename="day3.txt"):
-        rucksacks = self.parse()
+        sacks = self.parse(filename)
         total = 0
-        for rucksack in rucksacks:
+        for sack in sacks:
             # find common character (item type) in both compartments
-            A = set(rucksack[:len(rucksack) // 2])
-            B = set(rucksack[len(rucksack) // 2:])
+            A = set(sack[:len(sack) // 2])
+            B = set(sack[len(sack) // 2:])
             item = A.intersection(B).pop()
 
             # calculate priority of the common item type
@@ -53,8 +63,14 @@ class Solution:
         return total
 
 
-    def part2(self):
-        pass
+    def part2(self, filename="day3.txt"):
+        sacks = self.parse(filename)
+        total = 0
+        for i in range(0, len(sacks), 3):
+            group = sacks[i:i + 3]
+            badge = reduce(set.intersection, map(set, group)).pop()
+            total += self.priority(badge)
+        return total
 
 
 
